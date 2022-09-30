@@ -3,6 +3,7 @@ Can tell you everything about the material according to the entered `chemical fo
 
 # Features
 - You can enter your formula and see info about this material or chemical. Also you can add yours! (Over 100 supported for now)
+- You can adjust the information you need with checkboxes
 - Easy to use
 
 # Dependencies
