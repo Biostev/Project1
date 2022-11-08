@@ -102,7 +102,7 @@ class GraphicsMW(QWidget):  # Graphics for Main Window
         self.chem_input.setAlignment(Qt.AlignCenter)
 
         self.chem_input_label = QLabel(self)  # Label
-        self.chem_input_label.setText('Input a chemical')
+        self.chem_input_label.setText('Input a chemical. Example: "Al(OH)3"')
         self.chem_input_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.chem_input_label.setAlignment(Qt.AlignCenter)
 
@@ -132,13 +132,15 @@ class MainWindow(GraphicsMW):  # Main window with an input line to get the formu
 
     def input_enter(self):
         open_info = True
-        elements = Parser().parsing(self.chem_input.text())
+        result = Parser().parsing(self.chem_input.text())
+        elements = result[0]
+        list_of_syntax = result[1]
         if elements == 'Incorrect input':
             dlg = ErrorDialog()
             dlg.exec()
             open_info = False
         if open_info:
-            if len(elements.keys()) == 1 and len(self.chem_input.text()) in [1, 2]:
+            if len(list_of_syntax) == 1:
                 self.elem_info = InfoWindowForElements(self.chem_input.text())
             else:
                 self.elem_info = InfoWindowForChemicals(self.chem_input.text(), elements)
@@ -160,7 +162,7 @@ class GraphicsIWFE(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setGeometry(200, 200, 500, 360)  # Window
+        self.setGeometry(500, 190, 500, 360)  # Window
         self.setWindowTitle('Element')
 
         self.ready_btn = QPushButton('Update data', self)  # New data button
@@ -351,12 +353,12 @@ class GraphicsIWFC(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setGeometry(200, 200, 500, 360)  # Window
+        self.setGeometry(500, 190, 500, 360)  # Window
         self.setWindowTitle('Chemical')
 
         self.ready_btn = QPushButton('Update data', self)  # New data button
 
-        self.delete_btn = QPushButton('Delete element', self)  # Delete data button
+        self.delete_btn = QPushButton('Delete chemical', self)  # Delete data button
 
         self.table = QTableWidget(self)  # Creating a table for info
         self.table.setRowCount(8)
@@ -564,7 +566,7 @@ class InfoWindowForChemicals(GraphicsIWFC):
                     cursor = db.cursor()
                     query = f'''
                     UPDATE Chemicals
-                    SET Formula = ?, Name = ?, [Molecular mass] = ?, Density = ?,
+                    SET Formula = ?, [Molecular mass] = ?, Name = ?, Density = ?,
                     [Melting point] = ?, [Boiling point] = ?, [Thermal conductivity] = ?, [Electrical conductivity] = ?
                     WHERE Formula = ?
                     '''
@@ -641,10 +643,11 @@ class Parser(object):
     '''
 
     def parsing(self, formula):
+        list_of_syntax = []
         if formula == '':  # Checking the correctness of brackets in formula
-            return False
+            bracket_check = False
         elif formula[0] == ')' or formula[-1] == '(':
-            return False
+            bracket_check = False
         else:
             x = []
             for j in formula:
@@ -658,7 +661,7 @@ class Parser(object):
                 bracket_check = False
 
         if not (bracket_check and self.grammar_check(formula)):
-            return 'Incorrect input'
+            return ['Incorrect input', list_of_syntax]
 
         stack = []  # separate different elements, brackets and indexes
         length = len(formula)
@@ -685,6 +688,7 @@ class Parser(object):
                     num_str += formula[ind]
                     ind += 1
                 stack.append(num_str)
+        list_of_syntax = stack[:]
 
         length = len(stack) - 1  # add index '1' after elements and brackets with no index
         tmp_stack = []
@@ -703,7 +707,7 @@ class Parser(object):
         if stack[-1] == ')':
             stack.append('1')
 
-        tmp_stack = []  # show elements as lists [name, amount]
+        tmp_stack = []  # show elements as lists [name, amount] the list now is [[name, amount], [name, amount]]
         ind = 0
         length = len(stack)
         if stack[0].isdigit():
@@ -738,7 +742,7 @@ class Parser(object):
             else:
                 result_dict[element[0]] = int(element[1]) * main_factor
 
-        return result_dict
+        return [result_dict, list_of_syntax]
     '''
     This firstly checks that formula is correct with grammar_check func and bracket_check flag.
     Then it parses the entered formula and returns the dict {element: amount} for every element in it.
