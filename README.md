@@ -1,39 +1,47 @@
-# Project1
-Can tell you everything about the material according to the entered `chemical formula`, and if it doesn't know, you can add it to the `database`!
+# Chemical dictionary
+Can tell you everything about the chemical according to the entered `chemical formula`, and if it doesn't know, you can add it to the `database`!
 
 # Features
-- You can enter your formula and see info about this material or chemical. Also you can add yours! (Over 100 supported for now)
-- You can adjust the information you need with checkboxes
+- You can enter your formula and see info about this element or chemical. If the formula is not in db, you can add it
+- Molecular mass for chemicals is calculated automatically
+- Сonvenient info showing as a table. It is editable, so you can update info about chemical or element easyly
+- You can delete element or chemical from the database by clicking delete button
 - Easy to use
 
 # Dependencies
 - PyQt5
-- Databases
-- Pillow
-
-# Interface
-Here you can see sketch of the interface. The first window has an editline to enter your formula. Also you can enable and disable the information with checkboxes. If the database has no info about your chemical, you can add it by yourself.
 
 Characteristics:
 - Chemical elements:
+- - Formula
 - - Name
+- - Section
+- - Period
 - - Atomic number
 - - Atomic mass
 - - Density
 - - Melting point
 - - Boiling point
-- - Group
-- - Subgroup
-- - Atom pic
 - Chemicals:
+- - Formula
+- - Molecular mass
 - - Name
 - - Density
 - - Melting point
 - - Boiling point
 - - Thermal conductivity
 - - Electrical conductivity
-(on pic named "info 1", "info 2", etc.)
-![interface sketch](https://github.com/Biostev/Project1/blob/main/%D0%94%D1%80%D0%B0%D1%84%D1%82%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81%D0%B0.png)
+
+# Interface
+There is an input field in the MainWindow. Enter your chemical formula there. Then the InfoWindow will appear.
+InfoWindow has a table and 2 buttons: Update data and Delete. You can change info in the table, but some rows are read-only (Formula for both and checical also has a read-only molecular mass). After changing you can click Update data button and the database will be updated with it. Also you can delete element/chemical from the database by clicking Delete button.
+
+# Interface screenshots
+![MainWindow](https://github.com/Biostev/Project1/blob/main/Interface/MainWindow.png)
+![InfoWindowForChemicals](https://github.com/Biostev/Project1/blob/main/Interface/InfoWindowForChemicals.png)
+![InfoWindowForElements](https://github.com/Biostev/Project1/blob/main/Interface/InfoWindowForElements.png)
+![UnknownFormula](https://github.com/Biostev/Project1/blob/main/Interface/UnknownFormula.png)
+![IncorrectInput](https://github.com/Biostev/Project1/blob/main/Interface/IncorrectInput.png)
 
 # Authors
 - [Biostev](https://github.com/Biostev)
