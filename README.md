@@ -11,7 +11,8 @@ Can tell you everything about the chemical according to the entered `chemical fo
 # Dependencies
 - PyQt5
 
-Characteristics:
+# Info about elements and chemicals
+Info:
 - Chemical elements:
 - - Formula
 - - Name
