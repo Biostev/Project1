@@ -1,5 +1,6 @@
 # Chemical dictionary
 Can tell you everything about the chemical according to the entered `chemical formula`, and if it doesn't know, you can add it to the `database`!
+You can install exe folder from link in 'exe_link.txt'
 
 # Features
 - You can enter your formula and see info about this element or chemical. If the formula is not in db, you can add it
